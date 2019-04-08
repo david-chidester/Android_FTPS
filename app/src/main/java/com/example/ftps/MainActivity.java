@@ -2,6 +2,7 @@ package com.example.ftps;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.net.ftp.FTP;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //initializing ftp client object
+        FTPSClient ftpsClient = new FTPSClient();
+        FTP ftp = new FTP();
 
         //declarations for edit text views
 
@@ -30,15 +38,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //test strings
+                String testAdr = "10.10.10.10";
+                String testUser = "dchid";
+                String testPass = "password";
+
                 //Getting string from editText Views
                 String adrString = address.getText().toString();
                 String unString = username.getText().toString();
                 String passwdString = password.getText().toString();
 
-                //opens file browser activity
-                startActivity(new Intent(MainActivity.this, FileBrowser.class));
+                if (adrString.equals(testAdr) && unString.equals(testUser) && passwdString.equals(testPass)){
+                    //opens file browser activity
+                    startActivity(new Intent(MainActivity.this, FileBrowser.class));
+                }
+                else {
+                    Snackbar.make(v, "Login Failed", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
+
 
     }
 

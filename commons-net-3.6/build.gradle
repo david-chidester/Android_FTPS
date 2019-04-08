@@ -1,0 +1,4 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('commons-net-3.6.jar'))
+dependencies {
+}

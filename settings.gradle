@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':commons-net-3.6'
