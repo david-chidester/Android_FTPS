@@ -14,6 +14,8 @@ import android.widget.EditText;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //initializing ftp client object
-        FTPSClient ftpsClient = new FTPSClient();
+        final FTPSClient ftpsClient = new FTPSClient();
         FTP ftp = new FTP();
 
         //declarations for edit text views
@@ -50,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (adrString.equals(testAdr) && unString.equals(testUser) && passwdString.equals(testPass)){
                     //opens file browser activity
+                    try {
+                        ftpsClient.login(unString, passwdString);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(MainActivity.this, FileBrowser.class));
                 }
                 else {
