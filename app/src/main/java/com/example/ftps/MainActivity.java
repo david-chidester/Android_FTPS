@@ -15,6 +15,9 @@ import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,17 +43,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //test strings
-                String testAdr = "10.10.10.10";
-                String testUser = "dchid";
-                String testPass = "password";
-
                 //Getting string from editText Views
                 String adrString = address.getText().toString();
                 String unString = username.getText().toString();
                 String passwdString = password.getText().toString();
 
-                if (adrString.equals(testAdr) && unString.equals(testUser) && passwdString.equals(testPass)){
+                try {
+                    ftpsClient.connect(InetAddress.getByName(adrString));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (ftpsClient.isConnected()){
+
                     //opens file browser activity
                     try {
                         ftpsClient.login(unString, passwdString);
@@ -58,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     startActivity(new Intent(MainActivity.this, FileBrowser.class));
+
+                    Snackbar.make(v, "connection successful", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
                 else {
-                    Snackbar.make(v, "Login Failed", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "login failed", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             }
