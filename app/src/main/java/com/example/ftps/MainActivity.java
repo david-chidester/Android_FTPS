@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,13 +19,27 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //declarations for edit text views
+
+        final EditText address = findViewById(R.id.addressEditText);
+        final EditText username = findViewById(R.id.usernameEditText);
+        final EditText password = findViewById(R.id.passwordEditText);
+
         Button btn = findViewById(R.id.connectButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Getting string from editText Views
+                String adrString = address.getText().toString();
+                String unString = username.getText().toString();
+                String passwdString = password.getText().toString();
+
+                //opens file browser activity
                 startActivity(new Intent(MainActivity.this, FileBrowser.class));
             }
         });
+
     }
 
     @Override
