@@ -19,7 +19,13 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import static java.util.logging.Logger.global;
+
 public class MainActivity extends AppCompatActivity {
+
+    //initializing ftp client object
+    public final FTPSClient ftpsClient = new FTPSClient();
+    FTP ftp = new FTP();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //initializing ftp client object
-        final FTPSClient ftpsClient = new FTPSClient();
-        FTP ftp = new FTP();
 
         //declarations for edit text views
 
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                MainActivity.this.openFileBrowserActivity(v);
 
                 //Getting string from editText Views
                 String adrString = address.getText().toString();
@@ -62,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    startActivity(new Intent(MainActivity.this, FileBrowser.class));
-
-                    Snackbar.make(v, "connection successful", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    MainActivity.this.openFileBrowserActivity(v);
                 }
                 else {
                     Snackbar.make(v, "login failed", Snackbar.LENGTH_LONG)
@@ -74,7 +75,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    //method to open file browser activity
+    void openFileBrowserActivity(View v) {
+        startActivity(new Intent(MainActivity.this, FileBrowser.class));
+
+        Snackbar.make(v, "connection successful", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
