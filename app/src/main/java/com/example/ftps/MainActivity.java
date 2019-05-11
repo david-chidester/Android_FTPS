@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
@@ -22,6 +23,10 @@ import java.net.UnknownHostException;
 import static java.util.logging.Logger.global;
 
 public class MainActivity extends AppCompatActivity {
+
+    //ftp ports
+    int dataPort = 20;
+    int controlPort = 21;
 
     //initializing ftp client object
     public final FTPSClient ftpsClient = new FTPSClient();
@@ -40,11 +45,19 @@ public class MainActivity extends AppCompatActivity {
         final EditText username = findViewById(R.id.usernameEditText);
         final EditText password = findViewById(R.id.passwordEditText);
 
+        //open about this app activity
+        Button about = findViewById(R.id.aboutButton);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AboutApp.class));
+            }
+        });
+
         Button btn = findViewById(R.id.connectButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 MainActivity.this.openFileBrowserActivity(v);
 
                 //Getting string from editText Views
@@ -53,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 String passwdString = password.getText().toString();
 
                 try {
-                    ftpsClient.connect(InetAddress.getByName(adrString));
+                    InetAddress ipv4 = Inet4Address.getByName(adrString);
+                    ftpsClient.connect(ipv4, controlPort);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.openFileBrowserActivity(v);
                 }
                 else {
-                    Snackbar.make(v, "login failed", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    MainActivity.this.loginFailedSnackbar(v);
                 }
             }
         });
@@ -82,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, FileBrowser.class));
 
         Snackbar.make(v, "connection successful", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    void loginFailedSnackbar(View v) {
+        Snackbar.make(v, "login failed", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

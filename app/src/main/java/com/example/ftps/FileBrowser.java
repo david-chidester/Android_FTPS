@@ -12,19 +12,28 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FileBrowser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //ArrayList of strings for file data
+        ArrayList<String> fileNamesList = new ArrayList<>();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_browser);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //make an array for files
-        FTPSClient ftpsClient = new FTPSClient();
+        //passing ftps instance from Main Activity
+        MainActivity ma = new MainActivity();
+        FTPSClient ftpsClient = ma.ftpsClient;
 
+        View fileRecyclerview = findViewById(R.id.fileRecyclerView);
+
+        //make an array for files
         try {
             FTPFile fileArray[] = ftpsClient.listFiles();
         } catch (IOException e) {
@@ -44,7 +53,6 @@ public class FileBrowser extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
