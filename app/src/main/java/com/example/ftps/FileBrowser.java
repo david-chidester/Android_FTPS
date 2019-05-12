@@ -29,19 +29,17 @@ public class FileBrowser extends AppCompatActivity {
         //ArrayList of strings for file data
         ArrayList<String> fileNamesList = new ArrayList<>();
 
-        //ArrayList<FileBrowserListItem> testList = new ArrayList<>();
-        //testRecyclerView(testList);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_browser);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ArrayList<FileBrowserListItem> testList = new ArrayList<>();
+        testRecyclerView(testList);
+
         //passing ftps instance from Main Activity
         MainActivity ma = new MainActivity();
         FTPSClient ftpsClient = ma.ftpsClient;
-
-        View fileRecyclerview = findViewById(R.id.fileRecyclerView);
 
         //make an array for files
         try {
@@ -71,6 +69,8 @@ public class FileBrowser extends AppCompatActivity {
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Documents", "5.5 gb", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Downloads", "5.5 gb", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "5.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "5.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Music", "122.9 gb", true));
 
         recyclerView = findViewById(R.id.fileRecyclerView);
         // ensures that the recycler view does not change size no matter how many items are in the list

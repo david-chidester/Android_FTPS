@@ -27,7 +27,7 @@ public class FileBrowserAdapter extends RecyclerView.Adapter<FileBrowserAdapter.
     }
 
     public FileBrowserAdapter(ArrayList<FileBrowserListItem> fileList) {
-        fileList = fbliList;
+        fbliList = fileList;
     }
 
     @NonNull

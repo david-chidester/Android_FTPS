@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     //initializing ftp client object
     public final FTPSClient ftpsClient = new FTPSClient();
-    FTP ftp = new FTP();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
