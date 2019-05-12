@@ -3,6 +3,8 @@ package com.example.ftps;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -16,11 +18,19 @@ import java.util.ArrayList;
 
 public class FileBrowser extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
+    //loads arraylist items into recycler view
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         //ArrayList of strings for file data
         ArrayList<String> fileNamesList = new ArrayList<>();
+
+        //ArrayList<FileBrowserListItem> testList = new ArrayList<>();
+        //testRecyclerView(testList);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_browser);
@@ -57,4 +67,18 @@ public class FileBrowser extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    void testRecyclerView(ArrayList<FileBrowserListItem> browserList) {
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Documents", "5.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Downloads", "5.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "5.5 gb", true));
+
+        recyclerView = findViewById(R.id.fileRecyclerView);
+        // ensures that the recycler view does not change size no matter how many items are in the list
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        adapter = new FileBrowserAdapter(browserList);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 }
