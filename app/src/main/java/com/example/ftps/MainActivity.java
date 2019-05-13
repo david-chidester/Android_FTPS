@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.apache.commons.net.ftp.FTPCmd;
+import org.apache.commons.net.ftp.FTPCommand;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
 
@@ -20,7 +23,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static java.util.logging.Logger.global;
+import static org.apache.commons.net.ftp.FTPCommand.RETRIEVE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    try {
+                        ftpsClient.sendCommand("RETR", "hello.txt");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     MainActivity.this.openFileBrowserActivity(v);
                 }
                 else {
@@ -107,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
     public String getPassWord() {
         EditText username = findViewById(R.id.usernameEditText);
         return username.getText().toString();
+    }
+
+    public FTPSClient getFtpsClient() {
+        return ftpsClient;
     }
 
     //method to open file browser activity

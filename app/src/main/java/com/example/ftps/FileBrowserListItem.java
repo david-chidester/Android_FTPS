@@ -36,4 +36,5 @@ public class FileBrowserListItem {
     public boolean getIsDirectory() {
         return isDirectory;
     }
+
 }

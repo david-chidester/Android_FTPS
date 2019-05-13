@@ -1,5 +1,6 @@
 package com.example.ftps;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,7 @@ public class FileBrowser extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     //loads arraylist items into recycler view
-    private RecyclerView.Adapter adapter;
+    private FileBrowserAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
     @Override
@@ -39,8 +40,7 @@ public class FileBrowser extends AppCompatActivity {
 
         //passing ftps instance from Main Activity
         MainActivity ma = new MainActivity();
-
-        System.out.println(ma.ftpsClient.isConnected() + "");
+        System.out.println("fb client connected = " + ma.getFtpsClient().isConnected());
         //make an array for files
         try {
             FTPFile fileArray[] = ma.ftpsClient.listFiles();
@@ -68,12 +68,16 @@ public class FileBrowser extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    void testRecyclerView(ArrayList<FileBrowserListItem> browserList) {
-        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Documents", "5.5 gb", true));
+    void testRecyclerView(final ArrayList<FileBrowserListItem> browserList) {
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Documents", "63.3 kb", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Downloads", "5.5 gb", true));
-        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "5.5 gb", true));
-        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "5.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Desktop", "37.3 mb", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Music", "122.9 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Pictures", "19.5 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "programs", "1.8 mb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Public", "0 b", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Videos", "4.3 gb", true));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_file_download_black_24dp, "hello.txt", "46 b", false));
 
         recyclerView = findViewById(R.id.fileRecyclerView);
         // ensures that the recycler view does not change size no matter how many items are in the list
@@ -83,5 +87,16 @@ public class FileBrowser extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnClockListener(new FileBrowserAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int position) {
+                FileBrowser.this.itemDownloadedSnackbar(recyclerView, browserList.get(position));
+            }
+        });
+    }
+
+    void itemDownloadedSnackbar(View v, FileBrowserListItem fbli) {
+        Snackbar.make(v, "Downloaded " + fbli.getFileName(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }
