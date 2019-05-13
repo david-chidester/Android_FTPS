@@ -78,6 +78,7 @@ public class FileBrowser extends AppCompatActivity {
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Public", "0 b", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_folder_black_24dp, "Videos", "4.3 gb", true));
         browserList.add(new FileBrowserListItem(R.drawable.ic_file_download_black_24dp, "hello.txt", "46 b", false));
+        browserList.add(new FileBrowserListItem(R.drawable.ic_file_download_black_24dp, "Don't Stop Me Now.mp3", "6.7 mb", false));
 
         recyclerView = findViewById(R.id.fileRecyclerView);
         // ensures that the recycler view does not change size no matter how many items are in the list

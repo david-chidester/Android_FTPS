@@ -18,7 +18,9 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     try {
-                        ftpsClient.sendCommand("RETR", "hello.txt");
+                        ftpsClient.retrieveFile("hello.txt", new FileOutputStream("hello.txt"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
