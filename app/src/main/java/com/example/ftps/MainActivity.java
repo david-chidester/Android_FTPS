@@ -2,6 +2,7 @@ package com.example.ftps;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTP;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     int controlPort = 21;
 
     //initializing ftp client object
-    public final FTPSClient ftpsClient = new FTPSClient();
+    public FTPSClient ftpsClient = new FTPSClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,22 +57,27 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.openFileBrowserActivity(v);
+                // MainActivity.this.openFileBrowserActivity(v);
 
                 //Getting string from editText Views
                 String adrString = address.getText().toString();
                 String unString = username.getText().toString();
                 String passwdString = password.getText().toString();
 
+                //setting network policy
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+
                 try {
                     InetAddress ipv4 = Inet4Address.getByName(adrString);
+                    System.out.println(ipv4.toString());
                     ftpsClient.connect(ipv4, controlPort);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 if (ftpsClient.isConnected()){
-
+                    System.out.println("CLIENT CONNECTED = " + ftpsClient.isConnected());
                     //opens file browser activity
                     try {
                         ftpsClient.login(unString, passwdString);
@@ -87,6 +92,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //getters for login info
+    public String getIPAddress() {
+        EditText address = findViewById(R.id.addressEditText);
+        return address.getText().toString();
+    }
+
+    public String getUserName() {
+        EditText username = findViewById(R.id.usernameEditText);
+        return username.getText().toString();
+    }
+
+    public String getPassWord() {
+        EditText username = findViewById(R.id.usernameEditText);
+        return username.getText().toString();
     }
 
     //method to open file browser activity

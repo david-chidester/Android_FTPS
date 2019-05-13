@@ -41,6 +41,8 @@ public class FileBrowser extends AppCompatActivity {
         MainActivity ma = new MainActivity();
         FTPSClient ftpsClient = ma.ftpsClient;
 
+        //System.out.println(ma.ftpsClient.isConnected());
+
         //make an array for files
         try {
             FTPFile fileArray[] = ftpsClient.listFiles();

@@ -21,6 +21,10 @@ public class FileBrowserListItem {
         return imageResource;
     }
 
+    public void setImageRecource(int ir) {
+        imageResource = ir;
+    }
+
     public String getFileName() {
         return fileName;
     }
