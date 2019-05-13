@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     int controlPort = 21;
 
     //initializing ftp client object
-    public FTPSClient ftpsClient = new FTPSClient();
+    public final FTPSClient ftpsClient = new FTPSClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //setting network policy
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         //declarations for edit text views
 
@@ -57,16 +61,11 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // MainActivity.this.openFileBrowserActivity(v);
 
                 //Getting string from editText Views
                 String adrString = address.getText().toString();
                 String unString = username.getText().toString();
                 String passwdString = password.getText().toString();
-
-                //setting network policy
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
 
                 try {
                     InetAddress ipv4 = Inet4Address.getByName(adrString);

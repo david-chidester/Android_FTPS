@@ -39,27 +39,28 @@ public class FileBrowser extends AppCompatActivity {
 
         //passing ftps instance from Main Activity
         MainActivity ma = new MainActivity();
-        FTPSClient ftpsClient = ma.ftpsClient;
 
-        //System.out.println(ma.ftpsClient.isConnected());
-
+        System.out.println(ma.ftpsClient.isConnected() + "");
         //make an array for files
         try {
-            FTPFile fileArray[] = ftpsClient.listFiles();
+            FTPFile fileArray[] = ma.ftpsClient.listFiles();
+            for (int i = 0; i < fileArray.length; i++) {
+                System.out.println(fileArray[i].getName());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //make an array for directories
         try {
-            FTPFile dirArray[] = ftpsClient.listDirectories();
+            FTPFile dirArray[] = ma.ftpsClient.listDirectories();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //Make String for current directory
         try {
-            String currentDir = ftpsClient.printWorkingDirectory();
+            String currentDir = ma.ftpsClient.printWorkingDirectory();
         } catch (IOException e) {
             e.printStackTrace();
         }
